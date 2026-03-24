@@ -1,0 +1,28 @@
+{
+  "name": "finetune-studio",
+  "version": "0.1.0",
+  "description": "Desktop app for fine-tuning AI models on Apple Silicon",
+  "author": "FineTune Studio",
+  "license": "MIT",
+  "main": "electron/main.js",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n vite,electron \"vite\" \"sleep 2 && unset ELECTRON_RUN_AS_NODE && electron .\"",
+    "dev:vite": "vite",
+    "build": "vite build",
+    "build:mac": "vite build && electron-builder --mac",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^9.1.0",
+    "electron": "^33.0.0",
+    "electron-builder": "^26.8.1",
+    "vite": "^5.4.3"
+  }
+}

@@ -1,0 +1,43 @@
+appId: com.finetune-studio.app
+productName: FineTune Studio
+copyright: Copyright © 2025
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - electron/**/*
+  - dist/**/*
+  - package.json
+
+extraResources:
+  - from: python/
+    to: python/
+    filter:
+      - "**/*.py"
+
+asar: true
+
+mac:
+  category: public.app-category.developer-tools
+  icon: build/icon.png
+  target:
+    - target: dmg
+      arch:
+        - arm64
+  darkModeSupport: true
+  hardenedRuntime: true
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+
+dmg:
+  title: FineTune Studio
+  artifactName: FineTune-Studio-${version}-${arch}.dmg
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications

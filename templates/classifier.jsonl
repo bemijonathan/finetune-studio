@@ -1,0 +1,8 @@
+{"messages": [{"role": "user", "content": "Classify the sentiment: 'This product is absolutely amazing, best purchase ever!'"}, {"role": "assistant", "content": "positive"}]}
+{"messages": [{"role": "user", "content": "Classify the sentiment: 'Terrible experience. The item broke after one day.'"}, {"role": "assistant", "content": "negative"}]}
+{"messages": [{"role": "user", "content": "Classify the sentiment: 'It works fine, nothing special but does the job.'"}, {"role": "assistant", "content": "neutral"}]}
+{"messages": [{"role": "user", "content": "Classify the sentiment: 'I love how easy this is to use. Highly recommend!'"}, {"role": "assistant", "content": "positive"}]}
+{"messages": [{"role": "user", "content": "Classify the sentiment: 'Waste of money. Customer support was unhelpful too.'"}, {"role": "assistant", "content": "negative"}]}
+{"messages": [{"role": "user", "content": "Classify the sentiment: 'Arrived on time. Packaging was adequate.'"}, {"role": "assistant", "content": "neutral"}]}
+{"messages": [{"role": "user", "content": "Classify the sentiment: 'Exceeded my expectations in every way possible!'"}, {"role": "assistant", "content": "positive"}]}
+{"messages": [{"role": "user", "content": "Classify the sentiment: 'The quality has really gone downhill compared to previous versions.'"}, {"role": "assistant", "content": "negative"}]}

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f1218"/>
+      <stop offset="100%" stop-color="#161b24"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4f7cff"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#4f7cff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="line2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2dd4a0"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect x="0" y="0" width="1024" height="1024" rx="228" fill="url(#bg)"/>
+
+  <!-- Subtle border -->
+  <rect x="4" y="4" width="1016" height="1016" rx="224" fill="none" stroke="url(#accent)" stroke-width="2.5" stroke-opacity="0.25"/>
+
+  <!-- Top glow -->
+  <ellipse cx="512" cy="240" rx="320" ry="220" fill="url(#glow)"/>
+
+  <!-- Grid lines (subtle) -->
+  <line x1="240" y1="360" x2="784" y2="360" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <line x1="240" y1="440" x2="784" y2="440" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <line x1="240" y1="520" x2="784" y2="520" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <line x1="240" y1="600" x2="784" y2="600" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <line x1="240" y1="680" x2="784" y2="680" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+
+  <line x1="330" y1="300" x2="330" y2="720" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <line x1="420" y1="300" x2="420" y2="720" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <line x1="512" y1="300" x2="512" y2="720" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <line x1="602" y1="300" x2="602" y2="720" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+  <line x1="692" y1="300" x2="692" y2="720" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
+
+  <!-- Axes -->
+  <line x1="240" y1="300" x2="240" y2="720" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2.5"/>
+  <line x1="240" y1="720" x2="784" y2="720" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2.5"/>
+
+  <!-- Train loss curve (blue gradient, descending) -->
+  <path d="M 270 660 C 310 600, 340 640, 380 560 C 420 480, 440 520, 490 460 C 530 410, 560 430, 610 400 C 650 375, 690 385, 760 370"
+        fill="none" stroke="url(#accent)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Eval loss curve (green/teal, dashed, slightly above) -->
+  <path d="M 380 590 C 430 510, 470 540, 520 490 C 560 450, 590 460, 640 430 C 680 405, 720 415, 760 400"
+        fill="none" stroke="url(#line2)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14 8"/>
+
+  <!-- Data points on train curve -->
+  <circle cx="270" cy="660" r="9" fill="#4f7cff"/>
+  <circle cx="380" cy="560" r="9" fill="#5588ff"/>
+  <circle cx="490" cy="460" r="9" fill="#3ab8e4"/>
+  <circle cx="610" cy="400" r="8" fill="#28cce6"/>
+  <circle cx="760" cy="370" r="8" fill="#22d3ee"/>
+
+  <!-- Data points on eval curve -->
+  <circle cx="380" cy="590" r="7" fill="#2dd4a0"/>
+  <circle cx="520" cy="490" r="7" fill="#28d3aa"/>
+  <circle cx="640" cy="430" r="7" fill="#22d3b8"/>
+  <circle cx="760" cy="400" r="7" fill="#22d3c6"/>
+
+  <!-- Decorative: small LoRA adapter symbol (two rectangles + connecting arc) -->
+  <rect x="320" y="780" width="80" height="28" rx="6" fill="none" stroke="#4f7cff" stroke-width="2.5" stroke-opacity="0.5"/>
+  <rect x="624" y="780" width="80" height="28" rx="6" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-opacity="0.5"/>
+  <path d="M 400 794 Q 512 760, 624 794" fill="none" stroke="url(#accent)" stroke-width="2" stroke-opacity="0.4"/>
+
+  <!-- Center diamond marker -->
+  <path d="M 512 770 L 520 782 L 512 794 L 504 782 Z" fill="url(#accent)" fill-opacity="0.6"/>
+</svg>
