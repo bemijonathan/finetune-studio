@@ -53,17 +53,15 @@ Built for Apple Silicon with local MLX training, and cloud GPU training via Toge
 <!-- IMAGE: New Job wizard — Step 1 showing the runtime toggle (Local/Cloud) and model selection grid -->
 ![Model Selection](docs/images/new-job-models.png)
 
-<!-- IMAGE: New Job wizard — Step 2 showing dataset upload, format detection, and preview table -->
-![Dataset Import](docs/images/new-job-dataset.png)
 
 <!-- IMAGE: New Job wizard — Step 3 showing presets and training parameter configuration -->
 ![Training Config](docs/images/new-job-config.png)
 
 <!-- IMAGE: Jobs page showing a list of jobs with status badges, loss values, and a cloud badge on cloud jobs -->
-![Jobs List](docs/images/jobs-list.png)
+<!-- ![Jobs List](docs/images/jobs-list.png) -->
 
 <!-- IMAGE: Job detail view with live loss chart, progress bar, metrics cards, and configuration table -->
-![Job Detail](docs/images/job-detail.png)
+<!-- ![Job Detail](docs/images/job-detail.png) -->
 
 <!-- IMAGE: Settings page showing Python path, MLflow status, Together AI API key, HuggingFace token, and GPU info -->
 ![Settings](docs/images/settings.png)

@@ -27,9 +27,9 @@ function parseDatasetFile(filePath) {
 }
 
 function registerDatasetsIpc() {
-  ipcMain.handle('studio:upload-dataset', async () => {
+  ipcMain.handle('studio:upload-dataset', async (event) => {
     try {
-      const win = BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]
+      const win = BrowserWindow.fromWebContents(event.sender) || BrowserWindow.getAllWindows()[0]
       const result = await dialog.showOpenDialog(win, {
         properties: ['openFile'],
         filters: [
@@ -216,8 +216,8 @@ function registerDatasetsIpc() {
     }
   })
 
-  ipcMain.handle('studio:save-dataset-as', async (_event, rows, suggestedName) => {
-    const win = BrowserWindow.getFocusedWindow()
+  ipcMain.handle('studio:save-dataset-as', async (event, rows, suggestedName) => {
+    const win = BrowserWindow.fromWebContents(event.sender) || BrowserWindow.getFocusedWindow()
     const datasetsDir = getDatasetsDir()
     if (!datasetsDir) return null
 

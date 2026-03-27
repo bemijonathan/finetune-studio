@@ -6,8 +6,8 @@ function registerSetupIpc() {
     return checkSetup()
   })
 
-  ipcMain.handle('studio:run-setup', async () => {
-    const win = BrowserWindow.getFocusedWindow()
+  ipcMain.handle('studio:run-setup', async (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender) || BrowserWindow.getFocusedWindow()
 
     return new Promise((resolve, reject) => {
       setupEnvironment((progress) => {

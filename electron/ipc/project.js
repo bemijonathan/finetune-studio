@@ -1,8 +1,8 @@
 const { ipcMain, dialog, BrowserWindow } = require('electron')
 
 function registerProjectIpc(getProjectManager) {
-  ipcMain.handle('studio:open-project', async () => {
-    const win = BrowserWindow.getFocusedWindow()
+  ipcMain.handle('studio:open-project', async (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender) || BrowserWindow.getFocusedWindow()
     const result = await dialog.showOpenDialog(win, {
       properties: ['openDirectory', 'createDirectory'],
       title: 'Open Project Folder',
@@ -19,8 +19,8 @@ function registerProjectIpc(getProjectManager) {
     return pm.getProjectInfo()
   })
 
-  ipcMain.handle('studio:new-project', async () => {
-    const win = BrowserWindow.getFocusedWindow()
+  ipcMain.handle('studio:new-project', async (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender) || BrowserWindow.getFocusedWindow()
     const result = await dialog.showOpenDialog(win, {
       properties: ['openDirectory', 'createDirectory'],
       title: 'Choose Folder for New Project',

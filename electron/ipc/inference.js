@@ -118,8 +118,8 @@ function registerInferenceIpc(getInferenceService, getServiceManager) {
   })
 
   // Export adapter — copy adapter dir to user-chosen location
-  ipcMain.handle('studio:export-adapter', async (_event, adapterPath) => {
-    const win = BrowserWindow.getFocusedWindow()
+  ipcMain.handle('studio:export-adapter', async (event, adapterPath) => {
+    const win = BrowserWindow.fromWebContents(event.sender) || BrowserWindow.getFocusedWindow()
     const { filePaths } = await dialog.showOpenDialog(win, {
       title: 'Export Adapter To...',
       properties: ['openDirectory', 'createDirectory'],
@@ -137,7 +137,7 @@ function registerInferenceIpc(getInferenceService, getServiceManager) {
     const pythonPath = sm.pythonPath
     if (!pythonPath) throw new Error('Python not found')
 
-    const win = BrowserWindow.getFocusedWindow()
+    const win = BrowserWindow.fromWebContents(_event.sender) || BrowserWindow.getFocusedWindow()
     const { filePaths } = await dialog.showOpenDialog(win, {
       title: 'Save Merged Model To...',
       properties: ['openDirectory', 'createDirectory'],
