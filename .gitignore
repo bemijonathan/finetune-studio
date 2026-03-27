@@ -5,3 +5,5 @@ release/
 *.log
 *.dmg
 bun.lockb
+THEORY.md
+SPEC.md
