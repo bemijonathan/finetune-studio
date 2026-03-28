@@ -9,18 +9,6 @@ contextBridge.exposeInMainWorld('studio', {
     return () => ipcRenderer.removeListener('studio:service-status', handler)
   },
 
-  // Project
-  openProject: () => ipcRenderer.invoke('studio:open-project'),
-  openProjectPath: (path) => ipcRenderer.invoke('studio:open-project-path', path),
-  newProject: () => ipcRenderer.invoke('studio:new-project'),
-  getProject: () => ipcRenderer.invoke('studio:get-project'),
-  getRecentProjects: () => ipcRenderer.invoke('studio:get-recent-projects'),
-  onProjectChanged: (callback) => {
-    const handler = (_event, info) => callback(info)
-    ipcRenderer.on('studio:project-changed', handler)
-    return () => ipcRenderer.removeListener('studio:project-changed', handler)
-  },
-
   // Config
   getConfig: () => ipcRenderer.invoke('studio:get-config'),
   setConfig: (key, value) => ipcRenderer.invoke('studio:set-config', key, value),
@@ -71,8 +59,7 @@ contextBridge.exposeInMainWorld('studio', {
   mergeModel: (modelId, adapterPath) => ipcRenderer.invoke('studio:merge-model', modelId, adapterPath),
 
   // Setup
-  checkSetup: () => ipcRenderer.invoke('studio:check-setup'),
-  runSetup: () => ipcRenderer.invoke('studio:run-setup'),
+  getSetupStatus: () => ipcRenderer.invoke('studio:get-setup-status'),
   onSetupProgress: (callback) => {
     const handler = (_event, data) => callback(data)
     ipcRenderer.on('studio:setup-progress', handler)

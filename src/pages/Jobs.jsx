@@ -40,7 +40,7 @@ export default function Jobs() {
       <div className="page-header">
         <div>
           <div className="page-title">Training Jobs</div>
-          <div className="page-sub">All fine-tuning jobs in this project.</div>
+          <div className="page-sub">All fine-tuning jobs.</div>
         </div>
         <a href="#/new-job" className="btn-primary" style={{ textDecoration: 'none' }}>+ New Job</a>
       </div>

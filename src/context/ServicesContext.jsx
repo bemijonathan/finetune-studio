@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { useProject } from './ProjectContext'
 
 const ServicesContext = createContext({})
 
@@ -8,13 +7,6 @@ export function ServicesProvider({ children }) {
     mlflow: 'stopped',
     pythonPath: null,
   })
-  const { project } = useProject()
-
-  useEffect(() => {
-    if (project) {
-      setServices(prev => ({ ...prev, mlflow: 'starting' }))
-    }
-  }, [project?.path])
 
   useEffect(() => {
     window.studio?.getServiceStatus().then(s => {

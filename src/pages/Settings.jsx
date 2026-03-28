@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useServices } from '../context/ServicesContext'
-import { useProject } from '../context/ProjectContext'
-import SetupBanner from '../components/SetupBanner'
 
 export default function Settings() {
   const { services } = useServices()
-  const { project } = useProject()
   const [config, setConfig] = useState(null)
   const [gpu, setGpu] = useState(null)
 
@@ -27,8 +24,6 @@ export default function Settings() {
           <div className="page-sub">Configuration and environment.</div>
         </div>
       </div>
-
-      <SetupBanner />
 
       <div className="section-title">Services</div>
       <div className="stats-row" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
@@ -93,13 +88,6 @@ export default function Settings() {
             Detecting hardware...
           </div>
         )}
-      </div>
-
-      <div className="section-title">Project Directory</div>
-      <div className="stat-card">
-        <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, color: 'var(--teal)' }}>
-          {project?.path || 'No project open'}
-        </div>
       </div>
     </>
   )

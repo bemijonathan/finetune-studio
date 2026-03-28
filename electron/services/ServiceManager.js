@@ -1,7 +1,6 @@
 const { EventEmitter } = require('events')
 const { MlflowService } = require('./MlflowService.js')
 const { findPython } = require('../utils/python.js')
-const { hasProject } = require('../utils/paths.js')
 
 class ServiceManager extends EventEmitter {
   constructor() {
@@ -27,11 +26,6 @@ class ServiceManager extends EventEmitter {
   }
 
   async startAll() {
-    if (!hasProject()) {
-      this.emit('status-change', this.getStatuses())
-      return
-    }
-
     this.pythonPath = await findPython()
     if (!this.pythonPath) {
       console.error('Python 3.10+ not found')

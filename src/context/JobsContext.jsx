@@ -1,22 +1,15 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
-import { useProject } from './ProjectContext'
 
 const JobsContext = createContext({})
 
 export function JobsProvider({ children }) {
   const [jobs, setJobs] = useState([])
   const [liveMetrics, setLiveMetrics] = useState({}) // jobId -> metrics[]
-  const { project } = useProject()
 
-  // Load jobs when project changes
+  // Load jobs on mount
   useEffect(() => {
-    if (project) {
-      window.studio?.listJobs().then(j => setJobs(j || []))
-    } else {
-      setJobs([])
-      setLiveMetrics({})
-    }
-  }, [project?.path])
+    window.studio?.listJobs().then(j => setJobs(j || []))
+  }, [])
 
   // Subscribe to live progress
   useEffect(() => {

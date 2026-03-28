@@ -19,6 +19,8 @@ extraResources:
 
 asar: true
 
+afterPack: build/afterPack.js
+
 mac:
   category: public.app-category.developer-tools
   icon: build/icon.png
@@ -27,7 +29,8 @@ mac:
       arch:
         - arm64
   darkModeSupport: true
-  hardenedRuntime: true
+  hardenedRuntime: false
+  identity: null
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
 

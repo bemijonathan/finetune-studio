@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom'
 import { useServices } from '../context/ServicesContext'
-import { useProject } from '../context/ProjectContext'
 import GpuStatus from './GpuStatus'
 
 const navItems = [
@@ -13,7 +12,6 @@ const navItems = [
 
 export default function Layout({ children }) {
   const { services } = useServices()
-  const { project, openProject } = useProject()
 
   return (
     <div className="layout">
@@ -23,11 +21,6 @@ export default function Layout({ children }) {
             <div className="logo-mark">◇</div>
             <span className="logo-text">FINETUNE STUDIO</span>
           </NavLink>
-          {project && (
-            <button className="project-name-btn no-drag" onClick={openProject} title="Switch project">
-              {project.name}
-            </button>
-          )}
         </div>
         <div className="topbar-right no-drag">
           <div className="svc-pills-inline">
@@ -70,8 +63,8 @@ export default function Layout({ children }) {
 function ServicePill({ name, status }) {
   const dotClass = status === 'healthy' ? 'dot-green'
     : status === 'starting' ? 'dot-amber'
-    : status === 'error' ? 'dot-red'
-    : 'dot-dim'
+      : status === 'error' ? 'dot-red'
+        : 'dot-dim'
 
   return (
     <div className="svc-pill" title={`${name}: ${status}`}>

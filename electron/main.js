@@ -1,10 +1,8 @@
-const { app, BrowserWindow, shell } = require('electron')
+const { app, BrowserWindow, shell, ipcMain } = require('electron')
 const path = require('path')
 const { ServiceManager } = require('./services/ServiceManager.js')
-const { ProjectManager } = require('./services/ProjectManager.js')
 const { registerServicesIpc } = require('./ipc/services.js')
 const { registerConfigIpc, readConfig } = require('./ipc/config.js')
-const { registerProjectIpc } = require('./ipc/project.js')
 const { registerModelsIpc } = require('./ipc/models.js')
 const { registerTrainingIpc } = require('./ipc/training.js')
 const { registerDatasetsIpc } = require('./ipc/datasets.js')
@@ -13,14 +11,13 @@ const { TrainingService } = require('./services/TrainingService.js')
 const { CloudTrainingService } = require('./services/CloudTrainingService.js')
 const { InferenceService } = require('./services/InferenceService.js')
 const { registerInferenceIpc } = require('./ipc/inference.js')
-const { registerSetupIpc } = require('./ipc/setup.js')
 const { ensureGlobalDir } = require('./utils/paths.js')
+const { checkSetup, setupEnvironment } = require('./utils/python.js')
 
 const isDev = !app.isPackaged
 
 let mainWindow = null
 let serviceManager = null
-let projectManager = null
 let gpuDetector = null
 let trainingService = null
 let inferenceService = null
@@ -62,7 +59,6 @@ app.whenReady().then(async () => {
   ensureGlobalDir()
 
   serviceManager = new ServiceManager()
-  projectManager = new ProjectManager(serviceManager)
   gpuDetector = new GpuDetector()
   trainingService = new TrainingService()
   cloudTrainingService = new CloudTrainingService()
@@ -71,12 +67,10 @@ app.whenReady().then(async () => {
   // Register IPC handlers
   registerServicesIpc(() => serviceManager)
   registerConfigIpc()
-  registerProjectIpc(() => projectManager)
   registerModelsIpc(gpuDetector)
   registerTrainingIpc(() => trainingService, () => cloudTrainingService, () => serviceManager)
   registerDatasetsIpc()
   registerInferenceIpc(() => inferenceService, () => serviceManager)
-  registerSetupIpc()
 
   // Forward events to renderer
   trainingService.on('job-progress', (data) => {
@@ -104,27 +98,41 @@ app.whenReady().then(async () => {
       mainWindow.webContents.send('studio:service-status', statuses)
     }
   })
-  projectManager.on('project-changed', (info) => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-      mainWindow.webContents.send('studio:project-changed', info)
-    }
+
+  // Setup status IPC
+  ipcMain.handle('studio:get-setup-status', async () => {
+    return checkSetup()
   })
 
   createWindow()
 
-  // Auto-open last project
-  const recent = projectManager.getRecentProjects()
-  if (recent.length > 0) {
-    try {
-      await projectManager.openProject(recent[0].path)
-      // Resume polling for any active cloud training jobs
-      const appConfig = readConfig()
-      if (appConfig.togetherApiKey) {
-        cloudTrainingService.resumePollingForActiveJobs(appConfig.togetherApiKey)
+  // Auto-setup Python environment
+  try {
+    const status = await checkSetup()
+    if (!status.ready) {
+      const send = (data) => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.webContents.send('studio:setup-progress', data)
+        }
       }
-    } catch (err) {
-      console.log('Could not reopen last project:', err.message)
+      send({ stage: 'checking', message: 'Setting up Python environment...' })
+      await setupEnvironment(send)
     }
+  } catch (err) {
+    console.log('Auto-setup failed:', err.message)
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('studio:setup-progress', {
+        stage: 'error',
+        message: err.message,
+      })
+    }
+  }
+
+  // Start services and resume cloud training
+  await serviceManager.startAll()
+  const appConfig = readConfig()
+  if (appConfig.togetherApiKey) {
+    cloudTrainingService.resumePollingForActiveJobs(appConfig.togetherApiKey)
   }
 
   app.on('activate', () => {

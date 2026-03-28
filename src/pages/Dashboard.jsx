@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useJobs } from '../context/JobsContext'
 import JobProgress from '../components/JobProgress'
-import SetupBanner from '../components/SetupBanner'
 
 export default function Dashboard() {
   const hour = new Date().getHours()
@@ -9,10 +8,23 @@ export default function Dashboard() {
   const { jobs, liveMetrics } = useJobs()
   const [gpu, setGpu] = useState(null)
   const [models, setModels] = useState([])
+  const [setupStatus, setSetupStatus] = useState(null)
 
   useEffect(() => {
     window.studio?.getGpuInfo().then(setGpu)
     window.studio?.listModels().then(m => setModels(m || []))
+    window.studio?.getSetupStatus().then(s => {
+      if (!s.ready) setSetupStatus({ stage: 'checking', message: s.message })
+    })
+
+    const unsub = window.studio?.onSetupProgress((data) => {
+      setSetupStatus(data)
+      if (data.stage === 'done') {
+        setTimeout(() => setSetupStatus(null), 3000)
+      }
+    })
+
+    return () => unsub?.()
   }, [])
 
   const activeJobs = jobs.filter(j => j.status === 'running')
@@ -27,7 +39,27 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <SetupBanner />
+      {setupStatus && (
+        <div style={{
+          background: setupStatus.stage === 'error' ? 'rgba(239,68,68,0.08)' : 'rgba(99,102,241,0.08)',
+          border: `1px solid ${setupStatus.stage === 'error' ? 'var(--red, #ef4444)' : 'var(--blue, #6366f1)'}`,
+          borderRadius: 10,
+          padding: '10px 16px',
+          marginBottom: 20,
+          fontSize: 12,
+          color: 'var(--text2)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+        }}>
+          {setupStatus.stage !== 'done' && setupStatus.stage !== 'error' && (
+            <span style={{ animation: 'spin 1s linear infinite', display: 'inline-block' }}>⟳</span>
+          )}
+          {setupStatus.stage === 'done' && <span style={{ color: 'var(--green, #22c55e)' }}>✓</span>}
+          {setupStatus.stage === 'error' && <span style={{ color: 'var(--red, #ef4444)' }}>✕</span>}
+          <span>{setupStatus.message}</span>
+        </div>
+      )}
 
       <div className="stats-row">
         <div className="stat-card">
